@@ -5,12 +5,14 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+    <script src="~/js/ECommerce.js"></script>
 </head>
 
 <body>
     <h1>Siteme Goş geldiniz</h1>
     @RenderBody()
-    <h3>İletişim İçin Tıklayın</h3>
+    <a href="@Url.Action("Contact","Home")"> <h3>İletişim İçin Tıklayın</h3></a>
+   
 
 </body>
 </html>
