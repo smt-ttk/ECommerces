@@ -11,7 +11,7 @@ namespace ECommerce.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["Title"] = "Hoşgeldiniz";
+            ViewData["Title"] = "HOŞGELDİNİZ!";
             return View();
         }
 

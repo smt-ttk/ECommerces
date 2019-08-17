@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    [Migration("20190727121842_Product")]
-    partial class Product
+    [Migration("20190727123049_Product_2")]
+    partial class Product_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,9 +72,11 @@ namespace ECommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CategoryId");
+
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<string>("Desciption")
+                    b.Property<string>("Description")
                         .IsRequired();
 
                     b.Property<string>("Name")
@@ -84,6 +86,8 @@ namespace ECommerce.Migrations
                     b.Property<int>("StateId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("StateId");
 
@@ -150,6 +154,11 @@ namespace ECommerce.Migrations
 
             modelBuilder.Entity("ECommerce.Models.Product", b =>
                 {
+                    b.HasOne("ECommerce.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("ECommerce.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")

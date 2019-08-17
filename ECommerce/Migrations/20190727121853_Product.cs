@@ -15,7 +15,7 @@ namespace ECommerce.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 120, nullable: false),
-                    Desciption = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     StateId = table.Column<int>(nullable: false)
                 },

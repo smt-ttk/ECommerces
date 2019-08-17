@@ -1,3 +1,19 @@
-﻿iletişim
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - Test1</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="~/js/ECommerce.js"></script>
+</head>
+<body>
 
+    İsim: <input type="text" id="name" /><br />
+    Soyisim: <input type="text" id="surname" /><br />
+    Mesaj: <input type="text" id="message" /><br />
+    <input type="button" id="gonder" value="Gönder" onclick="ECommerce.Page.Contact.Send();" />
+
+</body>
+</html>
 

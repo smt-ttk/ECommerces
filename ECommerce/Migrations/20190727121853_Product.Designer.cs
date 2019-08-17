@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    [Migration("20190727090518_Init")]
-    partial class Init
+    [Migration("20190727121853_Product")]
+    partial class Product
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,30 @@ namespace ECommerce.Migrations
                         new { Id = 2, Description = "Mutfak elektroniği.", Name = "Beyaz Eşya" },
                         new { Id = 3, Description = "Gardropunuzu biz dolduruyoruz.", Name = "Tekstil" }
                     );
+                });
+
+            modelBuilder.Entity("ECommerce.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120);
+
+                    b.Property<int>("StateId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ECommerce.Models.State", b =>
@@ -122,6 +146,14 @@ namespace ECommerce.Migrations
                     b.HasOne("ECommerce.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId");
+                });
+
+            modelBuilder.Entity("ECommerce.Models.Product", b =>
+                {
+                    b.HasOne("ECommerce.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

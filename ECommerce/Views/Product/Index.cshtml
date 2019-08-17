@@ -1,0 +1,8 @@
+﻿@model Product;
+@{ await Html.RenderPartialAsync("_Partial_Categories");}
+
+<strong>Ürün Adı :</strong>@Model.Name <br/>
+
+<strong>Açıklama :</strong>@Model.Description
+
+<input type="button" value="Güncelle" id="update" onclick="ECommerce.Page.Product.Update();"/>
