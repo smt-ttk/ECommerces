@@ -8,7 +8,7 @@ namespace ECommerce.Controllers
         [Route("/urun/{id}")]
         public IActionResult Index(int id)
         {
-            Models.Product product;
+            Data.Models.Product product;
             using (ECommerceContext eCommerceContext = new ECommerceContext())
             {
                 product = eCommerceContext.Products.SingleOrDefault(a => a.Id == id);

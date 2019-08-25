@@ -1,8 +1,40 @@
-﻿@model Product;
-@{ await Html.RenderPartialAsync("_Partial_Categories");}
+﻿@model ECommerce.Data.Models.Product;
+<!-- @{ await Html.RenderPartialAsync("_Partial_Categories");}  -->
 
 <strong>Ürün Adı :</strong>@Model.Name <br/>
 
 <strong>Açıklama :</strong>@Model.Description
 
-<input type="button" value="Güncelle" id="update" onclick="ECommerce.Page.Product.Update();"/>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#urunGuncelle">Güncelle</button>
+
+<div class="modal fade" id="urunGuncelle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ürün Detay</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Ürün Adı</label>
+                        <textarea class="form-control" id="Name">@Model.Name </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Açıklama</label>
+                        <textarea class="form-control" id="Description">@Model.Description</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary" onclick="ECommerce.Page.Product.Update();">Güncelle</button>
+
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+

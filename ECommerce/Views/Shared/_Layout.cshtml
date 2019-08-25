@@ -1,15 +1,67 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewData["Title"] - Test1</title>
+    <title>@ViewData["Title"]</title>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <script src="~/js/ECommerce.js"></script>
+
 </head>
 <body>
-    <h1>Siteme geldiniz!</h1>
+
+    <h1><p class="font-weight-bold text-center">E-Commerce Welcome...</p></h1>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">Anasayfa<span class="sr-only"></span></a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kategoriler
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @{
+                            List<Category> categories = new List<Category>();
+
+                            using (ECommerceContext eCommerceContext = new ECommerceContext())
+                            {
+                                categories = eCommerceContext.Categories.ToList();
+                            }
+                        }
+                        @{
+                            foreach (Category category in categories)
+                            {
+                                <a class="dropdown-item" href="@Url.Action("Index", "Category", new { id = category.Id })">@category.Name</a>
+                            }
+                        }
+
+
+                    </div>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Help", "Home")">Yardım<span class="sr-only"></span></a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Contact", "Home")">İletişim<span class="sr-only"></span></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
     @RenderBody()
-    <a href="@Url.Action("Contact","Home")"> <h3>İletişim İçin Tıklayın</h3></a>
 </body>
 </html>

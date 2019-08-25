@@ -1,26 +1,30 @@
-﻿@model Category
+﻿@model ECommerce.Data.Models.Category
+<!--     @{await Html.RenderPartialAsync("_Partial_Categories");}-->
 
-@{await Html.RenderPartialAsync("_Partial_Categories");}
-
-<p>
-    <a href="@Url.Action("Index", "Home")">Anasayfa</a>
-</p>
 <h2>@Model.Name</h2>
 <p>@Model.Description</p>
 
-<form>
-    <input type="hidden" id="CategoryId" value="@Model.Id" />
-    <input type="text" id="ProductName" />
-    <input type="text" id="ProductDescription" />
-    <input type="button" value="Kaydet" onclick="ECommerce.Page.Category.Save();" />
-</form>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Ürün Adı ve Açıklaması</span>
+            </div>
+            <input type="hidden" aria-label="First name" class="form-control" id="CategoryId" value="@Model.Id" />
+            <input type="text" aria-label="First name" class="form-control" id="ProductName" />
+            <input type="text" aria-label="First name" class="form-control" id="ProductDescription" />
+            <input type="button" class="btn btn-primary" value="Kaydet" onclick="ECommerce.Page.Category.Save();" />
+
+        </div>
+    </div>
+</div>
 
 <div id="Holder-Products">
 
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         ECommerce.Page.Category.List();
     });
 </script>

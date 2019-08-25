@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerce.DTO;
-using ECommerce.Models;
+using ECommerce.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Controllers
 {
@@ -36,6 +37,10 @@ namespace ECommerce.Controllers
             {
                 AjaxMethod.SaveContact(ajaxRequest.Json);
             }
+            else if (ajaxRequest.Method == "UpdateProduct")
+            {
+                ajaxResponse.Dynamic = AjaxMethod.UpdateProduct(ajaxRequest.Json);
+            }
 
             return new JsonResult(ajaxResponse);
         }
@@ -43,19 +48,28 @@ namespace ECommerce.Controllers
 
     public class AjaxMethod
     {
+        private static readonly Adapter.ProductAdapter productAdapter = new Adapter.ProductAdapter();
         public bool RemoveProduct(string json)
         {
-            bool result = false;
+            bool result = true;
 
             DTO.ProductRemoveDto productRemove = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductRemoveDto>(json);
 
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
-            {
-                Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productRemove.ProductId);
+            productAdapter.Delete<Data.Models.Product>(productRemove.ProductId);
 
+            return result;
+        }
+        public bool UpdateProduct (string json)
+        {
+            bool result = false;
+
+            DTO.ProductUpdate productUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductUpdate>(json);
+            using (ECommerceContext eCommerceContext= new ECommerceContext())
+            {
+                Data.Models.Product product = eCommerceContext.Products.SingleOrDefault(a => a.Id == productUpdate.ProductId);
                 if (product != null)
                 {
-                    eCommerceContext.Products.Remove(product);
+                    eCommerceContext.Products.Update(product);
                     eCommerceContext.SaveChanges();
                     result = true;
                 }
@@ -63,52 +77,75 @@ namespace ECommerce.Controllers
 
             return result;
         }
-
         public void SaveProduct(string json)
         {
             DTO.ProductSaveDto productSave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductSaveDto>(json);
 
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
-            {
-                eCommerceContext.Products.Add(new Models.Product()
-                {
+            Data.Models.Product product = new Data.Models.Product()
+
+               {
                     Name = productSave.ProductName,
                     Description = productSave.ProductDescription,
                     StateId = (int)Enums.State.Active,
                     CategoryId = productSave.CategoryId,
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.UtcNow
 
-                });
+                 };
+            product = productAdapter.Insert<Data.Models.Product>(product);
+            //using (ECommerceContext eCommerceContext = new ECommerceContext())
+            //{
+            //    eCommerceContext.Products.Add(new Models.Product()
+            //    {
+            //        Name = productSave.ProductName,
+            //        Description = productSave.ProductDescription,
+            //        StateId = (int)Enums.State.Active,
+            //        CategoryId = productSave.CategoryId,
+            //        CreateDate = DateTime.UtcNow,
 
-                eCommerceContext.SaveChanges();
-            }
+            //    });
+
+            //    eCommerceContext.SaveChanges();
+            //}
         }
-
         public void SaveContact(string json)
         {
             DTO.ContactSaveDto contactSave = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ContactSaveDto>(json);
 
-            using (ECommerceContext eCommerceContext = new ECommerceContext())
+            Data.Models.Contact contact = new Contact()
             {
-                eCommerceContext.Contacts.Add(new Models.Contact()
-                {
-                    name= contactSave.name,
-                    surname = contactSave.surname,
-                    message =contactSave.message,
+                name = contactSave.name,
+                surname = contactSave.surname,
+                message = contactSave.message,
 
-                });
+            };
 
-                eCommerceContext.SaveChanges();
+            contact = productAdapter.Insert<Data.Models.Contact>(contact);
+
+            //using (ECommerceContext eCommerceContext = new ECommerceContext())
+            //{
+            //    eCommerceContext.Contacts.Add(new Models.Contact()
+            //    {
+            //        name= contactSave.name,
+            //        surname = contactSave.surname,
+            //        message =contactSave.message,
+
+            //    });
+
+            //    eCommerceContext.SaveChanges();
 
 
-            }
+            //}
         }
 
-
-        public List<Models.Product> ProductsByCategoryId(string json)
+        public List<Data.Models.Product> ProductsByCategoryId(string json)
         {
-            List<Models.Product> result = new List<Models.Product>();
+            List<Data.Models.Product> result = new List<Data.Models.Product>();
             DTO.ProductsByCategoryId productsByCategoryId = Newtonsoft.Json.JsonConvert.DeserializeObject<DTO.ProductsByCategoryId>(json);
+
+            
+            IQueryable<Product> products = productAdapter.Get<Data.Models.Product>();
+
+            result = products.Include(a => a.Category).ToList().Where(a => a.CategoryId == productsByCategoryId.CategoryId).ToList();
 
             using (ECommerceContext eCommerceContext = new ECommerceContext())
             {

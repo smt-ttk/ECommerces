@@ -59,8 +59,10 @@
                 for (var i = 0; i < data.dynamic.length; i++) {
                     var product = data.dynamic[i];
                     var productName = product.name;
+                    //ürünleri listeleme yeri
 
-                    html += "- <a href='/urun/" + product.id + "'> " + productName + "<input type='button' value='Sil' onclick='ECommerce.Page.Category.Remove(" + product.id + ")' /><br />";
+                    html += "<ul class='list-group'><li class='list-group-item'><a href='/urun/" + product.id + "'> " + productName + " </a> <input class='btn btn-danger btn-sm' type='button' value='Sil' onclick='ECommerce.Page.Category.Remove(" + product.id + ")' /></li> </ul>";
+
                 }
 
                 $("#Holder-Products").html(html);
@@ -68,10 +70,15 @@
         },
         Product: {
             Update: function () {
+                var productId = $("#productId").val();
                 var Name = $('#Name').val();
                 var Description = $('#Description').val();
-            }
 
+                var jDto = new Object();
+                jDto.ProductId = productId;
+
+                ECommerce.Helper.Ajax("UpdateProduct", jDto, ECommerce.Page.Category.Callback_Remove);
+            }
         },
         Contact: {
 

@@ -1,18 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewData["Title"] - Test1</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-    <script src="~/js/ECommerce.js"></script>
+
 </head>
 <body>
 
-    İsim: <input type="text" id="name" /><br />
-    Soyisim: <input type="text" id="surname" /><br />
-    Mesaj: <input type="text" id="message" /><br />
-    <input type="button" id="gonder" value="Gönder" onclick="ECommerce.Page.Contact.Send();" />
+    <form>
+        <div class="form-row" style="margin:20px 0 0 15px">
+            <label><b>İletişim Formu</b></label>
+        </div>
+        <div class="form-row" style="margin:5px 0 0 10px">
+         
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="name" placeholder="İsim">
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="surname" placeholder="Soyisim">
+            </div>
+
+        </div>
+        <div class="form-row" style="margin:5px 0 0 10px">
+            <div class="form-group col-md-4">
+                <textarea class="form-control" id="message" placeholder="Mesajınız..." rows="5"></textarea>
+            </div>
+        </div>
+        <div class="form-row" style="margin:2px 0 0 380px">
+            <button type="button" class="btn btn-success" id="gonder" onclick="ECommerce.Page.Contact.Send();">Gönder</button>
+        </div>
+    </form>
+
+
+
+
 
 </body>
 </html>
